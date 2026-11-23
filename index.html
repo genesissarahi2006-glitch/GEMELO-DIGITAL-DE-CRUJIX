@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CRUJIX SABOR | Tienda Virtual y Gemelo Digital</title>
+  <style>
+    :root {
+      --bg: #fffaf3;
+      --card: #ffffff;
+      --primary: #b45309;
+      --primary-dark: #78350f;
+      --accent: #15803d;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+    }
+    * { box-sizing: border-box; font-family: Arial, sans-serif; }
+    body { margin: 0; background: var(--bg); color: var(--text); }
+    header {
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+      color: #fff;
+      padding: 24px 20px;
+      text-align: center;
+    }
+    header p { margin: 6px 0 0; opacity: 0.92; font-size: 0.95rem; }
+    .container { max-width: 1050px; margin: 24px auto; padding: 0 16px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+    }
+    h2 { margin-top: 0; color: var(--primary-dark); font-size: 1.25rem; }
+    .badge {
+      display: inline-block;
+      background: #dcfce7;
+      color: var(--accent);
+      font-weight: bold;
+      font-size: 0.8rem;
+      padding: 4px 10px;
+      border-radius: 999px;
+      margin-bottom: 10px;
+    }
+    label { display: block; font-size: 0.9rem; font-weight: bold; margin: 10px 0 4px; }
+    select, input, button {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      font-size: 0.95rem;
+    }
+    button {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 14px;
+    }
+    button:hover { background: var(--primary-dark); }
+    .kpi-box {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .kpi {
+      background: #fef3c7;
+      padding: 10px;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .kpi strong { display: block; font-size: 1.1rem; color: var(--primary-dark); }
+    .kpi span { font-size: 0.78rem; color: var(--muted); }
+    .etapas { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .etapa-pill {
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      background: #f3f4f6;
+      border: 1px solid #d1d5db;
+    }
+    .etapa-activa {
+      background: #fef3c7;
+      border-color: var(--primary);
+      font-weight: bold;
+      color: var(--primary-dark);
+    }
+    .hash-box {
+      margin-top: 14px;
+      padding: 10px;
+      background: #f9fafb;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      word-break: break-all;
+      border: 1px dashed #cbd5e1;
+    }
+    .carrito-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.92rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>CRUJIX SABOR — Tienda Virtual &amp; Gemelo Digital</h1>
+    <p>Trazabilidad de lotes, simulación de rendimiento y respaldo en Ethereum Sepolia</p>
+  </header>
+
+  <div class="container grid-2">
+    <!-- Panel 1: Producto y Gemelo Digital -->
+    <div class="card">
+      <span class="badge">Gemelo Digital Activo</span>
+      <h2>Snack Artesanal CRUJIX SABOR</h2>
+      <p style="color: var(--muted); margin-top: 0;">Selecciona un lote y simula unidades para ver el comportamiento del gemelo digital.</p>
+
+      <label for="loteSelect">Lote registrado</label>
+      <select id="loteSelect">
+        <option value="LOTE-001">LOTE-001 — Empaquetado / Exportación</option>
+        <option value="LOTE-002">LOTE-002 — Almacenado</option>
+        <option value="LOTE-003">LOTE-003 — En tránsito</option>
+      </select>
+
+      <label for="unidadesInput">Unidades solicitadas / simuladas</label>
+      <input id="unidadesInput" type="number" min="10" max="5000" value="500" />
+
+      <label for="mermaInput">Merma estimada del proceso (%)</label>
+      <input id="mermaInput" type="number" min="0" max="50" step="0.5" value="4" />
+
+      <button id="btnSimular">Actualizar Gemelo Digital</button>
+
+      <div class="kpi-box">
+        <div class="kpi">
+          <strong id="kpiSalida">480</strong>
+          <span>Unidades útiles</span>
+        </div>
+        <div class="kpi">
+          <strong id="kpiMerma">20</strong>
+          <span>Merma estimada</span>
+        </div>
+        <div class="kpi">
+          <strong id="kpiEficiencia">96.0%</strong>
+          <span>Eficiencia</span>
+        </div>
+      </div>
+
+      <label>Etapas del lote en el gemelo</label>
+      <div class="etapas" id="listaEtapas"></div>
+
+      <div class="hash-box">
+        <strong>Contrato Sepolia:</strong> 0x61e97113a53CE39A08004515A12213b99c6efAe8<br />
+        <strong>Hash de evidencia del lote:</strong> <span id="hashTexto">0xabc333...</span>
+      </div>
+    </div>
+
+    <!-- Panel 2: Compra y Resumen de Pedido -->
+    <div class="card">
+      <span class="badge">Pedido Vinculado al Lote</span>
+      <h2>Carrito de Compra</h2>
+      <label for="precioUnit">Precio unitario referencial (USD)</label>
+      <input id="precioUnit" type="number" min="0.1" step="0.1" value="1.50" />
+
+      <button id="btnAgregar">Agregar Lote Simulado al Pedido</button>
+
+      <div id="carritoLista" style="margin-top: 16px;">
+        <p style="color: var(--muted);">Aún no has agregado lotes al pedido.</p>
+      </div>
+
+      <div class="hash-box" style="margin-top: 18px;">
+        <strong>Total estimado del pedido:</strong> $<span id="totalPedido">0.00</span> USD<br />
+        <strong>Trazabilidad incluida:</strong> Registro de hitos y hash verificable en red Sepolia.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const etapasProceso = [
+      "Registrado",
+      "Procesamiento",
+      "Empaquetado",
+      "Almacenado",
+      "En tránsito",
+      "Entregado"
+    ];
+
+    const infoLotes = {
+      "LOTE-001": { etapaActual: "Empaquetado", hash: "0xabc3339f4b12e801..." },
+      "LOTE-002": { etapaActual: "Almacenado", hash: "0xabc4447a901c552..." },
+      "LOTE-003": { etapaActual: "En tránsito", hash: "0xabc5551d284b910..." }
+    };
+
+    let totalAcumulado = 0;
+
+    function actualizarGemelo() {
+      const loteId = document.getElementById("loteSelect").value;
+      const unidades = Math.max(1, Number(document.getElementById("unidadesInput").value) || 0);
+      const mermaPct = Math.max(0, Number(document.getElementById("mermaInput").value) || 0);
+
+      const mermaUnidades = Math.round(unidades * (mermaPct / 100));
+      const unidadesUtiles = Math.max(0, unidades - mermaUnidades);
+      const eficiencia = unidades > 0 ? ((unidadesUtiles / unidades) * 100).toFixed(1) : "0.0";
+
+      document.getElementById("kpiSalida").textContent = unidadesUtiles;
+      document.getElementById("kpiMerma").textContent = mermaUnidades;
+      document.getElementById("kpiEficiencia").textContent = eficiencia + "%";
+
+      const loteData = infoLotes[loteId];
+      document.getElementById("hashTexto").textContent = loteData.hash;
+
+      const contenedorEtapas = document.getElementById("listaEtapas");
+      contenedorEtapas.innerHTML = "";
+      etapasProceso.forEach((etapa) => {
+        const span = document.createElement("span");
+        span.className = "etapa-pill" + (etapa === loteData.etapaActual ? " etapa-activa" : "");
+        span.textContent = etapa;
+        contenedorEtapas.appendChild(span);
+      });
+
+      return { loteId, unidadesUtiles, eficiencia, hash: loteData.hash };
+    }
+
+    document.getElementById("btnSimular").addEventListener("click", actualizarGemelo);
+    document.getElementById("loteSelect").addEventListener("change", actualizarGemelo);
+
+    document.getElementById("btnAgregar").addEventListener("click", () => {
+      const gemelo = actualizarGemelo();
+      const precio = Math.max(0, Number(document.getElementById("precioUnit").value) || 0);
+      const subtotal = gemelo.unidadesUtiles * precio;
+      totalAcumulado += subtotal;
+
+      const lista = document.getElementById("carritoLista");
+      if (lista.querySelector("p")) lista.innerHTML = "";
+
+      const fila = document.createElement("div");
+      fila.className = "carrito-item";
+      fila.innerHTML = `
+        <div>
+          <strong>${gemelo.loteId}</strong> (${gemelo.unidadesUtiles} u. | Ef. ${gemelo.eficiencia}%)<br />
+          <small style="color:#6b7280;">Hash: ${gemelo.hash}</small>
+        </div>
+        <strong>$${subtotal.toFixed(2)}</strong>
+      `;
+      lista.appendChild(fila);
+      document.getElementById("totalPedido").textContent = totalAcumulado.toFixed(2);
+    });
+
+    actualizarGemelo();
+  </script>
+</body>
+</html>
